@@ -1,4 +1,7 @@
+isDispute = ->
+  true
+
 module.exports = (robot) ->
-  robot.hear /HELLO$/i, (msg) ->
-    msg.send "hello!"
+  robot.hear /.*/, (msg) ->
+    msg.send "揉め事かァ？" if isDispute
 
