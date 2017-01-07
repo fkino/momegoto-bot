@@ -7,6 +7,7 @@ MEDIATION_MESSAGE = "揉め事かァ？"
 cleanup = (users, date) ->
   for user, times of users
     if ((date - times[times.length - 1]) / 1000) >= INTERVAL_SEC
+      delete users[user]
       continue
     for time, i in times
       if ((date - time) / 1000) < INTERVAL_SEC
@@ -33,12 +34,14 @@ isDispute = (users) ->
   true if count >= USER_COUNT
 
 module.exports = (robot) ->
+  robot.respond /debug/i, (msg) ->
+    cleanup(robot.brain.get(APP_NAME), new Date)
+    msg.send JSON.stringify(robot.brain.get(APP_NAME))
+    msg.finish()
+
   robot.hear /.*/, (msg) ->
     users = monitor(robot.brain, msg)
     if isDispute(users)
       msg.send MEDIATION_MESSAGE
       reset(robot.brain)
-
-  robot.respond /debug/i, (msg) ->
-    msg.send JSON.stringify(robot.brain.get(APP_NAME))
 
