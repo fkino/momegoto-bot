@@ -37,3 +37,6 @@ module.exports = (robot) ->
       msg.send "揉め事かァ？"
       clear(robot.brain)
 
+  robot.respond /debug/i, (msg) ->
+    msg.send JSON.stringify(robot.brain.get(APP_NAME))
+
