@@ -9,6 +9,9 @@ monitor = (brain, msg) ->
   brain.set(APP_NAME, users)
   users
 
+clear = (brain) ->
+  brain.set(APP_NAME, {})
+
 isDispute = (users) ->
   count = 0
   for user, times of users
@@ -18,5 +21,7 @@ isDispute = (users) ->
 module.exports = (robot) ->
   robot.hear /.*/, (msg) ->
     users = monitor(robot.brain, msg)
-    msg.send "揉め事かァ？" if isDispute(users)
+    if isDispute(users)
+      msg.send "揉め事かァ？"
+      clear(robot.brain)
 
