@@ -1,6 +1,8 @@
 APP_NAME = "momegoto-bot"
 MESSAGE_COUNT = 10
+USER_COUNT = 1
 INTERVAL_SEC = 5
+MEDIATION_MESSAGE = "揉め事かァ？"
 
 cleanup = (users, date) ->
   for user, times of users
@@ -21,21 +23,21 @@ monitor = (brain, msg) ->
   brain.set(APP_NAME, users)
   users
 
-clear = (brain) ->
+reset = (brain) ->
   brain.set(APP_NAME, {})
 
 isDispute = (users) ->
   count = 0
   for user, times of users
     count++ if times.length >= MESSAGE_COUNT
-  true if count >= 1
+  true if count >= USER_COUNT
 
 module.exports = (robot) ->
   robot.hear /.*/, (msg) ->
     users = monitor(robot.brain, msg)
     if isDispute(users)
-      msg.send "揉め事かァ？"
-      clear(robot.brain)
+      msg.send MEDIATION_MESSAGE
+      reset(robot.brain)
 
   robot.respond /debug/i, (msg) ->
     msg.send JSON.stringify(robot.brain.get(APP_NAME))
