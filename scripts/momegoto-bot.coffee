@@ -1,11 +1,23 @@
 APP_NAME = "momegoto-bot"
 MESSAGE_COUNT = 10
+INTERVAL_SEC = 5
+
+cleanup = (users, date) ->
+  for user, times of users
+    if ((date - times[times.length - 1]) / 1000) >= INTERVAL_SEC
+      continue
+    for time, i in times
+      if ((date - time) / 1000) < INTERVAL_SEC
+        times.splice(0, i)
+        break
+  users
 
 monitor = (brain, msg) ->
   users = brain.get(APP_NAME)
   users = {} unless users?
   users[msg.message.user.name] = [] unless users[msg.message.user.name]?
-  users[msg.message.user.name].push(new Date)
+  users[msg.message.user.name].push(date = new Date)
+  users = cleanup(users, date)
   brain.set(APP_NAME, users)
   users
 
