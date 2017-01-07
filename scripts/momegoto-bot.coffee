@@ -1,8 +1,8 @@
 APP_NAME = "momegoto-bot"
 MESSAGE_COUNT = 10
-USER_COUNT = 1
-INTERVAL_SEC = 5
-MEDIATION_MESSAGE = "揉め事かァ？"
+USER_COUNT = 2
+INTERVAL_SEC = 180
+MEDIATION_MESSAGE = "揉め事かァ？ハグアウトする？"
 
 cleanup = (users, date) ->
   for user, times of users
