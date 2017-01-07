@@ -2,14 +2,11 @@ APP_NAME = "momegoto-bot"
 
 monitor = (brain, msg) ->
   users = brain.get(APP_NAME)
-  users = new Object() unless users?
-  if users[msg.message.user.name]?
-    count = users[msg.message.user.name]
-  else
-    count = 0
-  users[msg.message.user.name] = ++count
+  users = {} unless users?
+  users[msg.message.user.name] = [] unless users[msg.message.user.name]?
+  users[msg.message.user.name].push(new Date)
   brain.set(APP_NAME, users)
-  msg.send msg.message.user.name + " : " + count
+  msg.send msg.message.user.name + " : " + users[msg.message.user.name]
 
 isDispute = ->
   true
