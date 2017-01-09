@@ -31,7 +31,7 @@ isDispute = (users) ->
   count = 0
   for user, times of users
     count++ if times.length >= MESSAGE_COUNT
-  true if count >= USER_COUNT
+  count >= USER_COUNT
 
 module.exports = (robot) ->
   robot.respond /debug/i, (msg) ->
