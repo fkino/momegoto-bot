@@ -35,7 +35,6 @@ isDispute = (messages) ->
 
 module.exports = (robot) ->
   robot.respond /debug/i, (msg) ->
-    cleanup(robot.brain.get(APP_NAME), new Date)
     msg.send JSON.stringify(robot.brain.get(APP_NAME))
     msg.finish()
 
